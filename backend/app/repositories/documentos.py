@@ -58,3 +58,34 @@ def get_documento_by_numeracion_y_numero(db: Session, numeracion_id: int, numero
         Documento.numeracion_id == numeracion_id,
         Documento.numero == numero
     ).first()
+
+
+# Estadísticas
+def get_empresas_con_mas_fallidos_que_exitosos(db: Session):
+    """
+    Obtener empresas que tienen más documentos fallidos que exitosos
+    Basado en query_1.sql
+    """
+    from sqlalchemy import case, func
+    from ..models.empresas import Empresa, Numeracion
+    from ..models.documentos import Estado
+    
+    query = db.query(
+        Empresa.id,
+        Empresa.razon_social
+    ).join(
+        Numeracion, Empresa.id == Numeracion.empresa_id
+    ).join(
+        Documento, Numeracion.id == Documento.numeracion_id
+    ).join(
+        Estado, Documento.estado_id == Estado.id
+    ).group_by(
+        Empresa.id,
+        Empresa.razon_social
+    ).having(
+        func.sum(case((~Estado.exitoso, 1), else_=0)) >
+        func.sum(case((Estado.exitoso, 1), else_=0))
+    )
+    
+    results = query.all()
+    return [{"id": r.id, "razon_social": r.razon_social} for r in results]

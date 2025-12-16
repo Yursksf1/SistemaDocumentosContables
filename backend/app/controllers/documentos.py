@@ -96,3 +96,19 @@ def patch_documento(db: Session, documento_id: int, documento: documentos.Docume
 def delete_documento(db: Session, documento_id: int):
     """Eliminar un documento"""
     return DocumentosRepository.delete_documento(db, documento_id)
+
+
+# Estadísticas
+def get_estadisticas_documentos(db: Session):
+    """Obtener estadísticas de documentos"""
+    estadisticas = []
+    
+    # Estadística 1: Empresas con más documentos fallidos que exitosos
+    empresas_fallidos = DocumentosRepository.get_empresas_con_mas_fallidos_que_exitosos(db)
+    estadisticas.append({
+        "titulo": "Empresas con más documentos fallidos que exitosos",
+        "result": empresas_fallidos
+    })
+    
+    return {"estadisticas": estadisticas}
+

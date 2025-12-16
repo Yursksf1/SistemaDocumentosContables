@@ -21,6 +21,12 @@ def get_documentos(
     return ControllerDocumentos.get_documentos(db, page=page, size=size)
 
 
+@router.get("/documentos/estadisticas", response_model=SchemasDocumentos.EstadisticasDocumentosResponse)
+def get_estadisticas_documentos(db: Session = Depends(get_db)):
+    """Obtener estadísticas de documentos"""
+    return ControllerDocumentos.get_estadisticas_documentos(db)
+
+
 @router.get("/documentos/{documento_id}", response_model=SchemasDocumentos.DocumentoDetail)
 def get_documento(documento_id: int, db: Session = Depends(get_db)):
     """Obtener detalle de un documento"""
