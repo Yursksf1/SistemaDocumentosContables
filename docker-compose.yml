@@ -29,7 +29,19 @@ services:
     volumes:
       - ./backend/app:/app/app
     restart: unless-stopped
-
+  
+  frontend:
+    build: ./frontend
+    container_name: gestion_personal_frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/src:/app/src
+    restart: unless-stopped
 
 volumes:
   postgres_data:

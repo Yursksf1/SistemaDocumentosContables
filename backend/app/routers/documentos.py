@@ -36,13 +36,13 @@ def get_documento(documento_id: int, db: Session = Depends(get_db)):
     return documento
 
 
-@router.post("/documentos", response_model=SchemasDocumentos.DocumentoCreate)
+@router.post("/documentos", response_model=SchemasDocumentos.DocumentoDetail)
 def create_documento(documento: SchemasDocumentos.DocumentoCreate, db: Session = Depends(get_db)):
     """Crear una nueva documento"""
     return ControllerDocumentos.create_documento(db, documento)
 
 
-@router.put("/documentos/{documento_id}", response_model=SchemasDocumentos.DocumentoUpdate)
+@router.put("/documentos/{documento_id}", response_model=SchemasDocumentos.DocumentoDetail)
 def update_documento(
     documento_id: int, 
     documento: SchemasDocumentos.DocumentoUpdate,
