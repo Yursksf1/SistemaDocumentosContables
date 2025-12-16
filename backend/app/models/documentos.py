@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Boolean, Numeric
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Boolean, Numeric, UniqueConstraint
 from ..database import Base
 
 
@@ -27,3 +27,7 @@ class Documento(Base):
     fecha = Column(Date)
     base = Column(Numeric(10, 2))
     impuestos = Column(Numeric(10, 2))
+
+    __table_args__ = (
+        UniqueConstraint('numero', 'numeracion_id', name='uq_numero_numeracion'),
+    )

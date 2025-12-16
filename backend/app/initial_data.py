@@ -82,16 +82,21 @@ def init_db(db: Session):
     # Crear 6 documentos por numeración (108 total)
     contador = 0
     for numeracion in numeraciones_list:
+        consecutivo_actual = numeracion.consecutivo_inicial
         for i in range(6):
-            numero = numeracion.consecutivo_inicial + i
+            # Asegurar que el número esté dentro del rango permitido
+            if consecutivo_actual > numeracion.consecutivo_final:
+                break
+            
+            numero = consecutivo_actual
             fecha_doc = fecha_inicial + timedelta(days=contador * 2)
             
             # Alternar entre diferentes estados
             estado_idx = contador % len(estados_list)
             
             # Generar valores base e impuestos variados
-            base = random.uniform(20000, 500000)
-            impuestos = base * 0.19
+            base = round(random.uniform(20000, 500000), 2)
+            impuestos = round(base * 0.19, 2)
             
             documento = documentos.Documento(
                 numeracion_id=numeracion.id,
@@ -103,6 +108,9 @@ def init_db(db: Session):
             )
             db.add(documento)
             contador += 1
+            consecutivo_actual += 1
+    
+    db.flush()
     
     db.commit()
     

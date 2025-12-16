@@ -9,7 +9,7 @@ from ..database import get_db
 router = APIRouter()
 
 
-@router.get("/empresas", response_model=List[SchemasEmpresas.Empresa])
+@router.get("/empresas", response_model=SchemasEmpresas.PaginatedEmpresa)
 def get_empresas(db: Session = Depends(get_db)):
     """Obtener todas las empresas"""
     return EmpresasControllers.get_empresas(db)

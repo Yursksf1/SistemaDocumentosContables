@@ -27,6 +27,10 @@ def update_documento(db: Session, documento_id: int, documento: documentos.Docum
     documento_data = documento.model_dump()
     return DocumentosRepository.update_documento(db, documento_id, documento_data)
 
+def patch_documento(db: Session, documento_id: int, documento: documentos.DocumentoPatch):
+    """Actualizar parcialmente un documento"""
+    documento_data = documento.model_dump(exclude_unset=True)
+    return DocumentosRepository.update_documento(db, documento_id, documento_data)
 
 def delete_documento(db: Session, documento_id: int):
     """Eliminar un documento"""

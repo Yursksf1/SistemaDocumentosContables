@@ -20,6 +20,12 @@ class DocumentoCreate(DocumentoBase):
 class DocumentoUpdate(DocumentoBase):
     pass
 
+class DocumentoPatch(BaseModel):
+    numeracion_id: Optional[int] = None
+    estado_id: Optional[int] = None
+    fecha: Optional[date] = None
+    base: Optional[Decimal] = None
+    impuestos: Optional[Decimal] = None
 
 class DocumentoDetail(DocumentoBase):
     id: int

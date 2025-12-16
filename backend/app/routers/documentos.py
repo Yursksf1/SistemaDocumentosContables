@@ -49,6 +49,19 @@ def update_documento(
     return updated_documento
 
 
+@router.patch("/documentos/{documento_id}", response_model=SchemasDocumentos.DocumentoDetail)
+def patch_documento(
+    documento_id: int,
+    documento: SchemasDocumentos.DocumentoPatch,
+    db: Session = Depends(get_db)
+):
+    """Actualizar parcialmente un documento (excluye id y numero)"""
+    updated_documento = ControllerDocumentos.patch_documento(db, documento_id, documento)
+    if not updated_documento:
+        raise HTTPException(status_code=404, detail="Documento no encontrado")
+    return updated_documento
+
+
 @router.delete("/documentos/{documento_id}")
 def delete_documento(documento_id: int, db: Session = Depends(get_db)):
     """Eliminar una documento"""
