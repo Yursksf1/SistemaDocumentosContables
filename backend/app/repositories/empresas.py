@@ -16,3 +16,7 @@ def get_empresas(db: Session, page: int = 1, size: Optional[int] = None):
         items = query.offset((page - 1) * size).limit(size).all()
     
     return total, page, size, items
+
+def get_numeracion_by_id(db: Session, numeracion_id: int):
+    """Obtener una numeración por ID"""
+    return db.query(ModelsEmpresas.Numeracion).filter(ModelsEmpresas.Numeracion.id == numeracion_id).first()
