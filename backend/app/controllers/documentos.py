@@ -110,5 +110,49 @@ def get_estadisticas_documentos(db: Session):
         "result": empresas_fallidos
     })
     
+    # Estadística 2: Cantidad de documentos por tipo entre fechas
+    documentos_por_tipo = DocumentosRepository.get_cantidad_documentos_por_tipo_entre_fechas(
+        db, '2025-01-01', '2025-12-31'
+    )
+    estadisticas.append({
+        "titulo": "Cantidad de facturas, notas débito y notas crédito emitidas (2025)",
+        "result": documentos_por_tipo
+    })
+    
+    # Estadística 3: Cantidad de documentos por estado y empresa
+    documentos_por_estado = DocumentosRepository.get_cantidad_documentos_por_estado_y_empresa(db)
+    estadisticas.append({
+        "titulo": "Cantidad de documentos por estado, agrupada por empresa",
+        "result": documentos_por_estado
+    })
+    
+    # Estadística 4: Empresas con más de 3 documentos no exitosos
+    empresas_muchos_fallidos = DocumentosRepository.get_empresas_con_mas_de_n_documentos_fallidos(db, 3)
+    estadisticas.append({
+        "titulo": "Empresas con más de 3 documentos no exitosos",
+        "result": empresas_muchos_fallidos
+    })
+    
+    # Estadística 5: Documentos fuera de rango
+    documentos_fuera_rango = DocumentosRepository.get_documentos_fuera_de_rango(db)
+    estadisticas.append({
+        "titulo": "Documentos cuyo número o fecha esté fuera del rango o vigencia autorizada",
+        "result": documentos_fuera_rango
+    })
+    
+    # Estadística 6: Total dinero recibido por empresa
+    total_dinero = DocumentosRepository.get_total_dinero_por_empresa(db)
+    estadisticas.append({
+        "titulo": "Total dinero recibido por empresa (facturas, notas débito)",
+        "result": total_dinero
+    })
+    
+    # Estadística 7: Números repetidos por empresa
+    numeros_repetidos = DocumentosRepository.get_numeros_repetidos_por_empresa(db)
+    estadisticas.append({
+        "titulo": "Detección de números completos repetidos (prefijo + número) en cada empresa",
+        "result": numeros_repetidos
+    })
+    
     return {"estadisticas": estadisticas}
 
