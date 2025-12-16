@@ -70,7 +70,7 @@ def get_documento(db: Session, documento_id: int):
 def create_documento(db: Session, documento: documentos.DocumentoCreate):
     """Crear un nuevo documento"""
     # Validaciones de negocio
-    _validar_valores_monetarios(documento.valor_base, documento.impuesto)
+    _validar_valores_monetarios(documento.base, documento.impuestos)
     _validar_numeracion_y_rango(db, documento.numeracion_id, documento.numero, documento.fecha)
     _validar_numero_no_duplicado(db, documento.numeracion_id, documento.numero)
     
@@ -79,7 +79,7 @@ def create_documento(db: Session, documento: documentos.DocumentoCreate):
 
 def update_documento(db: Session, documento_id: int, documento: documentos.DocumentoUpdate):
     """Actualizar un documento"""
-    _validar_valores_monetarios(documento.valor_base, documento.impuesto)
+    _validar_valores_monetarios(documento.base, documento.impuestos)
     _validar_numeracion_y_rango(db, documento.numeracion_id, documento.numero, documento.fecha)
     _validar_numero_no_duplicado(db, documento.numeracion_id, documento.numero, documento_id)
     

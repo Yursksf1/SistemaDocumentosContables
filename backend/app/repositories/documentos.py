@@ -51,3 +51,10 @@ def delete_documento(db: Session, documento_id: int):
         db.commit()
         return True
     return False
+
+def get_documento_by_numeracion_y_numero(db: Session, numeracion_id: int, numero: int):
+    """Obtener un documento por numeración y número"""
+    return db.query(Documento).filter(
+        Documento.numeracion_id == numeracion_id,
+        Documento.numero == numero
+    ).first()
