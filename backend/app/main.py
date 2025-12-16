@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, SessionLocal
-from . import models
+from .models import documentos as documentosModels, empresas as empresasModels
 from .initial_data import init_db
-from .routers import companies, documents
+from .routers import empresas, documentos
 
 # Crear tablas
-models.Base.metadata.create_all(bind=engine)
+empresasModels.Base.metadata.create_all(bind=engine)
+documentosModels.Base.metadata.create_all(bind=engine)
 
 # Inicializar datos
 db = SessionLocal()
@@ -31,14 +32,14 @@ app.add_middleware(
 )
 
 # Incluir routers
-app.include_router(companies.router, tags=["Empresas"])
-app.include_router(documents.router, tags=["Documentos"])
+app.include_router(empresas.router, tags=["Empresas"])
+app.include_router(documentos.router, tags=["Documentos"])
 
 
 @app.get("/")
 def read_root():
     return {
-        "message": "Gestión Personal API",
+        "message": "Gestión de documentos API",
         "docs": "/docs",
         "version": "1.0.0"
     }
